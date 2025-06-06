@@ -21,6 +21,16 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: 'Check for empty secret'
+        if: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN == '' }}
+        run: |
+          echo "Secret is empty! Please check GitHub repository secrets."
+          exit 1
+
+      - name: Deploy to Azure Static Web Apps
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+
       - name: Deploy to Azure Static Web Apps
         id: deploy
         uses: Azure/static-web-apps-deploy@v1
